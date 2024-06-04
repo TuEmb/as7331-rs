@@ -5,6 +5,7 @@ authors = ["tuemb <nvtu96@gmail.com>"]
 edition = "2021"
 description   = "as7331 driver in Rust for embedded devices"
 license       = "MIT OR Apache-2.0"
+repository    = "https://github.com/TuEmb/as7331-rs"
 
 [dependencies]
 esp-hal = "0.17.0"
