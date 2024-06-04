@@ -1,0 +1,46 @@
+[alias]
+b_esp32   = "build --release --features=esp32   --target=xtensa-esp32-none-elf"
+b_esp32c2 = "build --release --features=esp32c2 --target=riscv32imc-unknown-none-elf"
+b_esp32c3 = "build --release --features=esp32c3 --target=riscv32imc-unknown-none-elf"
+b_esp32c6 = "build --release --features=esp32c6 --target=riscv32imac-unknown-none-elf"
+b_esp32h2 = "build --release --features=esp32h2 --target=riscv32imac-unknown-none-elf"
+b_esp32s2 = "build --release --features=esp32s2 --target=xtensa-esp32s2-none-elf"
+b_esp32s3 = "build --release --features=esp32s3 --target=xtensa-esp32s3-none-elf"
+r_esp32   = "run --release --features=esp32   --target=xtensa-esp32-none-elf --example uv"
+r_esp32c2 = "run --release --features=esp32c2 --target=riscv32imc-unknown-none-elf --example uv"
+r_esp32c3 = "run --release --features=esp32c3 --target=riscv32imc-unknown-none-elf --example uv"
+r_esp32c6 = "run --release --features=esp32c6 --target=riscv32imac-unknown-none-elf --example uv"
+r_esp32h2 = "run --release --features=esp32h2 --target=riscv32imac-unknown-none-elf --example uv"
+r_esp32s2 = "run --release --features=esp32s2 --target=xtensa-esp32s2-none-elf --example uv"
+r_esp32s3 = "run --release --features=esp32s3 --target=xtensa-esp32s3-none-elf --example uv"
+
+[target.'cfg(target_arch = "riscv32")']
+runner = "espflash flash --monitor"
+rustflags = [
+  "-C", "link-arg=-Tlinkall.x",
+  "-C", "force-frame-pointers",
+]
+[target.'cfg(target_arch = "xtensa")']
+runner = "espflash flash --monitor"
+rustflags = [
+  # GNU LD
+  "-C", "link-arg=-Wl,-Tlinkall.x",
+  "-C", "link-arg=-nostartfiles",
+
+  # LLD
+  # "-C", "link-arg=-Tlinkall.x",
+  # "-C", "linker=rust-lld",
+]
+
+[env]
+ESP_LOGLEVEL="INFO"
+
+[build]
+rustflags = [
+  # Required to obtain backtraces (e.g. when using the "esp-backtrace" crate.)
+  # NOTE: May negatively impact performance of produced code
+  "-C", "force-frame-pointers",
+]
+
+[unstable]
+build-std = ["alloc", "core"]
