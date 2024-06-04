@@ -3,6 +3,8 @@ name = "as7331-rs"
 version = "0.1.0"
 authors = ["tuemb <nvtu96@gmail.com>"]
 edition = "2021"
+description   = "as7331 driver in Rust for embedded devices"
+license       = "MIT OR Apache-2.0"
 
 [dependencies]
 esp-hal = "0.17.0"
